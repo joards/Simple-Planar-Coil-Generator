@@ -1,16 +1,17 @@
 # Simple-Planar-Coil-Generator
 A simple square spiral planar coil generator script for kicad pcbnew footprints
 
-## Requirements:
+### Requirements:
 * Python 2.6 (or later)
 * numpy
 
-## Usage:
+### Usage:
     $ python SquareCoilMaker.py
 Outputs a single layer coil using default values.
 Add the flag "-h" to get more info about user selectable parameters.
 
-```python SquareCoilMaker.py -h
+```
+python SquareCoilMaker.py -h
 usage: SquareCoilMaker.py [-h] [-d SIDES] [-lw LINEWIDTH] [-sp SPACING]
                           [-x WIDTH] [-y HEIGHT] [-via VIASIZE]
                           [-drill DRILLSIZE] [-name COMPONENTNAME]
@@ -41,9 +42,9 @@ optional arguments:
                         calculations, default=1
 ```
 
-## Note of warning:
+### Note of warning:
 The double sided coil layout have not been tested, the pad acting as a via may cause problems in your design.
 And the inductance calculations are rough at best.
 
-## Reference:
+### Reference:
    Induction equations from: http://www.edn.com/design/components-and-packaging/4363548/A-new-calculation-for-designing-multilayer-planar-spiral-inductors
