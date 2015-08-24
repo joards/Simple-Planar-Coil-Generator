@@ -18,7 +18,8 @@ usage: SquareCoilMaker.py [-h] [-d SIDES] [-lw LINEWIDTH] [-sp SPACING]
                           [-t THICKNESS]
 
 Generates single or double sided board coils for use in kicad as footprints.
-PS! The use of pad for via is yet untested.
+PS! The use of pad for via is yet untested. And the inductance calculation is
+rough at best
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -34,14 +35,15 @@ optional arguments:
   -name COMPONENTNAME   Component name, default='Coil'
   -N NUMBEROFTURNS      Number of turns, default=7
   --inductance [INDUCTANCE]
-                        To output an rough estimation of inductance set this
-                        flag
-  -t THICKNESS          Pcb thickness (mm), used in inductance calculations,
-                        default=1
+                        (Experimental)To output an rough estimation of
+                        inductance set this flag
+  -t THICKNESS          Pcb thickness (mm), used in experimental inductance
+                        calculations, default=1
 ```
 
 ## Note of warning:
 The double sided coil layout have not been tested, the pad acting as a via may cause problems in your design.
+And the inductance calculations are rough at best.
 
 ## Reference:
    Induction equations from: http://www.edn.com/design/components-and-packaging/4363548/A-new-calculation-for-designing-multilayer-planar-spiral-inductors

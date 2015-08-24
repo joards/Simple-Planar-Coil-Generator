@@ -37,10 +37,11 @@ class CoilMaker:
             self.DrawLine([corners[2], corners[1], corners[2], corners[3]]) #Left side
             self.DrawLine([corners[2], corners[3], corners[0]-DL, corners[3]]) #Bottom side
             if (turn == (self.NumberOfTurns -1) and self.twoSided == 1):
-                if (corners[0] - corners[2] > corners[3] - corners[1]):
-                    self.innerDia = (corners[0] - corners[2]) - self.linewidth
-                else:
-                    self.innerDia = (corners[3] - corners[1]) - self.linewidth
+                #if (corners[0] - corners[2] < corners[3] - corners[1]):
+                #    self.innerDia = (corners[0] - corners[2]) - self.linewidth
+                #else:
+                #    self.innerDia = (corners[3] - corners[1]) - self.linewidth
+                self.innerDia = sqrt( ((corners[0] - corners[2]) - self.linewidth) * ((corners[3] - corners[1]) - self.linewidth) )
                 print("""(pad 2 smd rect (at %.2f %.2f) (size %.2f %.2f) (layers F.Cu))"""% (corners[0]-DL, corners[3], self.linewidth, self.linewidth) )
             corners = corners - (DL*self.sign)
 
@@ -49,11 +50,11 @@ class CoilMaker:
         print(""" (pad "" thru_hole circle (at %.2f %.2f) (size %.2f %.2f) (drill %.2f) (layers *.Cu *.Mask F.SilkS)
         (zone_connect 2))""" % (corners[0]-DL, corners[3], self.viasize, self.viasize, self.drillsize ))
         
-        if ((corners[0]-DL) - corners[2] > corners[3] - corners[1]):
-            self.innerDia = ((corners[0]-DL) - corners[2]) - self.linewidth
-        else:
-            self.innerDia = (corners[3] - corners[1]) - self.linewidth
-
+        #if ((corners[0]-DL) - corners[2] < corners[3] - corners[1]):
+        #    self.innerDia = ((corners[0]-DL) - corners[2]) - self.linewidth
+        #else:
+        #    self.innerDia = (corners[3] - corners[1]) - self.linewidth
+        self.innerDia = sqrt( (((corners[0]-DL) - corners[2]) - self.linewidth) *(  ((corners[3]+DL) - corners[1]) - self.linewidth ) )
         for turn in range(0,self.NumberOfTurns):
             self.DrawLine([corners[0]-DL, corners[3], corners[0]-DL, corners[1]], "B.Cu") #Right side
             self.DrawLine([corners[0]-DL, corners[1], corners[2], corners[1]], "B.Cu") #Top side
@@ -106,7 +107,7 @@ class CoilMaker:
 if __name__=="__main__":
     parser = argparse.ArgumentParser(
         description="""Generates single or double sided board coils for use in kicad as footprints.
-PS! The use of pad for via is yet untested.""")
+PS! The use of pad for via is yet untested. And the inductance calculation is rough at best""")
     parser.add_argument('-d', dest='sides', type=int, default=1, 
                         help="Number of layers used for coil, (max=2), default=1")
     parser.add_argument('-lw', dest='Linewidth', type=float, default=0.25,
@@ -125,9 +126,9 @@ PS! The use of pad for via is yet untested.""")
                         help="Component name, default='Coil'")
     parser.add_argument('-N', dest='NumberOfTurns', type=int, default=7, 
                         help="Number of turns, default=7")
-    parser.add_argument('--inductance', nargs='?', const=1, default=0, help="To output an rough estimation of inductance set this flag")
+    parser.add_argument('--inductance', nargs='?', const=1, default=0, help="(Experimental)To output an rough estimation of inductance set this flag")
     parser.add_argument('-t', dest='thickness', type=float, default=1, 
-                        help="Pcb thickness (mm), used in inductance calculations, default=1")
+                        help="Pcb thickness (mm), used in experimental inductance calculations, default=1")
 
     args = parser.parse_args()
 
